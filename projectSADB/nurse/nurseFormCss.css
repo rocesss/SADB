@@ -1,0 +1,100 @@
+body{
+    background: rgb(246,246,246);
+}
+
+#form-body{
+    display: none;
+}
+
+#head-name{
+    background: rgb(0,192,159);
+    color: white;
+    font-size: 3em;
+}
+
+.container{
+    width: 70%;
+}
+
+.full-height{
+    background: white;
+    box-shadow: 0 0 10px 1px grey;
+}
+
+.label-header{
+    font-size: 1.15em;
+}
+
+.label-body{
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.button-search{
+    background: rgb(0,192,159);
+    color: white;
+}
+
+.button-search:hover{
+    background: rgb(0,144,120);
+}
+
+#form-header{
+    padding: 20px 20px 0 20px;
+}
+
+#form-body{
+    padding: 0 20px 0 20px;
+}
+
+.margin-bottom-zero{
+    margin-bottom: 0;
+}
+
+.margin-top-zero{
+    margin-top: 0;
+}
+
+.margin-top-three{
+    margin-top: 3px;
+}
+
+.margin-top-ten{
+    margin-top: 10px;
+}
+
+.margin-top-twenty{
+    margin-top: 20px;
+}
+
+.margin-top-bottom-three{
+    margin: 3px 0 3px 0;
+}
+
+.destroy-padding{
+    padding: 0;
+}
+
+.destroy-padding-right{
+    padding-right: 0;
+}
+
+.destroy-padding-left{
+    padding-left: 0;
+}
+
+.padding-top-seven{
+    padding-top: 7px;
+}
+
+.padding-top-ten{
+    padding-top: 10px;
+}
+
+.padding-bottom-fifty{
+    padding-bottom: 50px;
+}
+
+textarea{
+    resize: vertical;
+}

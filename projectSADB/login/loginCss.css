@@ -1,0 +1,111 @@
+body{
+    background: rgb(70,80,97);
+}
+
+.img-responsive{
+    margin: 4% auto;
+}
+
+.input-group{
+    width: 30%;
+    margin: 10px auto;
+}
+
+#login-button, #login-failed-button {
+    background: rgb(0,192,159);
+    border-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+
+#login-failed-button{
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+#login-button:hover, #login-failed-button:hover {
+    background: rgb(0,144,120);
+    border-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+
+.modal-header{
+    background: rgb(0,192,159);;
+    color: white;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius:5px;
+}
+
+.modal-footer{
+    border: none;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .img-responsive{
+        margin: 10% auto 0 auto;
+    }
+
+    .input-group{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 773px) {
+    .img-responsive{
+        margin: 0 auto;
+    }
+
+    .input-group{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .img-responsive{
+        margin: 20% auto 5% auto;
+    }
+
+    .input-group{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 736px){
+    .img-responsive{
+        margin:0 auto;
+        width: 30%;
+    }
+
+    .input-group{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 435px) {
+    .img-responsive{
+        margin: 25% auto 5% auto;
+        width: 50%;
+    }
+
+    .input-group{
+        width: 70%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
