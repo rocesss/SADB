@@ -11,9 +11,10 @@
         if($_GET['q'] == "search" && $_POST){
             $firstName = $_POST['patientFirstName'];
             $lastName = $_POST['patientLastName'];
-            $HN = $_POST['hn'];
+            $HN = $_POST['HN'];
 
             $data = getPatientData($firstName, $lastName, $HN);
+//            print_r($data);
         }else if($_GET['q'] == "save"){
             $treatment = $_POST['treatment'];
 //            echo print_r($treatment);
@@ -32,7 +33,7 @@
     <script src="../../bootstrap/js/bootstrap-datepicker.js" type="text/javascript"></script>
     <script src="../login/utility.js" type="text/javascript"></script>
     <link rel="stylesheet" href="nurseFormCss.css" type="text/css">
-    <title>For Nurse</title>
+    <title>ประวัติการตรวจพิเศษทางเดินอาหารของผู้ป่วย</title>
 </head>
 
 <body>
@@ -40,93 +41,65 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12" id="head-name">
-                <label>For Nurse</label>
+                <label>ประวัติการตรวจพิเศษทางเดินอาหารของผู้ป่วย</label>
             </div>
         </div>
 
         <form class="form-horizontal" id="form-header" method="post" action="nurseForm.php?q=search">
             <div class="form-group">
-                <label class="col-md-4 margin-bottom-zero label-header">Patient Firstname<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" value="<?php if(isset($data['patient_firstname'])) echo $data['patient_firstname']; else echo ""; ?>" ></label>
-                <label class="col-md-4 margin-bottom-zero label-header">Patient Lastname<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" value="<?php if(isset($data['patient_lastname'])) echo $data['patient_lastname']; else echo ""; ?>" ></label>
-                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="hn" value="<?php if(isset($data['hn'])) echo $data['hn']; else echo ""; ?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">Patient Firstname<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiFirstName']; else if(isset($data['englishFirstName'])) echo $data['englishFirstName']; else echo ""; ?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">Patient Lastname<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiLastName']; else if(isset($data['englishFirstName'])) echo $data['englishLastName']; else echo ""; ?>" ></label>
+                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="HN" required value="<?php if(isset($data['HN'])) echo $data['HN']; else echo ""; ?>" ></label>
                 <div class="col-md-1">
-                    <br><br><button type="summit" class="form-control button-search margin-top-three" id="button-search"><span class="glyphicon glyphicon-search"></span></button>
+                    <br><br><button type="summit" class="form-control button-style margin-top-three" id="button-search"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
         </form>
         <br>
 
         <form class="form-horizontal" id="form-body" method="post" >
-            <div class="form-group">
-                <label class="col-md-12 margin-bottom-zero label-header">การตรวจ</label><br><br>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="esophageal_manometry" <?php if(isset($data['treat_esophageal'])) echo "checked";?> > Esophageal manometry</label></div>
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="impedance_off" <?php if(isset($data['treat_imp_off'])) echo "checked";?>> Impedance pH monitoring off Rx</label></div>
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="impedance_on" <?php if(isset($data['treat_imp_on'])) echo "checked";?>> Impedance pH monitoring on Rx</label></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="anorectal_manometry" <?php if(isset($data['treat_anorectal'])) echo "checked";?>> Anorectal manometry</label></div>
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="antroduodenal_manonetry" <?php if(isset($data['treat_antroduodenal'])) echo "checked";?>> Antroduodenal manometry</label></div>
-                        <div class="col-md-4"><label class="checkbox-inline"><input type="checkbox" name="treatment[]" value="pudendal" <?php if(isset($data['treat_pudendal'])) echo "checked";?>> Pudendal nerve latency test</label></div>
-                    </div>
-                </div>
-            </div>
-            <br>
-
-            <div class="form-group">
-                <label class="col-md-12 margin-bottom-zero label-header">Breath test</label><br><br>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" name="breathTest[]" value="glucose" <?php if(isset($data['breath_glucose'])) echo "checked";?>> Glucose</label></div>
-                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" name="breathTest[]" value="lactulose" <?php if(isset($data['breath_lactulose'])) echo "checked";?>> Lactulose</label></div>
-                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" name="breathTest[]" value="fructose" <?php if(isset($data['breath_fructose'])) echo "checked";?>> Fructose</label></div>
-                    </div>
-                </div>
-            </div>
-            <br>
 
             <div class="form-group">
                 <label class="col-md-12 margin-bottom-zero label-header">ข้อบ่งชี้</label><br><br>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3 margin-top-bottom-three">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="dysphagia" <?php if(isset($data['indicator']) && $data['indicator'] == "dysphagia") echo "checked";?>> Dysphagia</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Dysphagia" value="y" <?php if(isset($data['Dysphagia'])) echo "checked";?>> Dysphagia</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="gerd" <?php if(isset($data['indicator']) && $data['indicator'] == "gerd") echo "checked";?>> GERD</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="GERD" value="y" <?php if(isset($data['GERD'])) echo "checked";?>> GERD</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="nonCardiacChest" <?php if(isset($data['indicator']) && $data['indicator'] == "nonCardiacChest") echo "checked";?>> Non-cardiac chest pain</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Non_cardiac_chest_pain" value="y" <?php if(isset($data['Non_cardiac_chest_pain'])) echo "checked";?>> Non-cardiac chest pain</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="chronicEnt" <?php if(isset($data['indicator']) && $data['indicator'] == "chronicEnt") echo "checked";?>> Chronic ENT problem</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Chronic_ENT_problem" value="y" <?php if(isset($data['Chronic_ENT_problem'])) echo "checked";?>> Chronic ENT problem</label>
                         </div>
 
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="globus" <?php if(isset($data['indicator']) && $data['indicator'] == "globus") echo "checked";?>> Globus</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Globus" value="y" <?php if(isset($data['Globus'])) echo "checked";?>> Globus</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="dyspepsia" <?php if(isset($data['indicator']) && $data['indicator'] == "dyspepsia") echo "checked";?>> Dyspepsia</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Dyspepsia" value="y" <?php if(isset($data['Dyspepsia'])) echo "checked";?>> Dyspepsia</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="bloating" <?php if(isset($data['indicator']) && $data['indicator'] == "bloating") echo "checked";?>> Bloating</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Bloating" value="y" <?php if(isset($data['Bloating'])) echo "checked";?>> Bloating</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="belching" <?php if(isset($data['indicator']) && $data['indicator'] == "belching") echo "checked";?>> Belching</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Belching" value="y" <?php if(isset($data['Belching'])) echo "checked";?>> Belching</label>
                         </div>
 
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="constipation" <?php if(isset($data['indicator']) && $data['indicator'] == "constipation") echo "checked";?>> Constipation</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Constipation" value="y" <?php if(isset($data['Constipation'])) echo "checked";?>> Constipation</label>
                         </div>
                         <div class="col-md-3 margin-top-bottom-three padding-top-seven">
-                            <label class="radio-inline"><input type="radio" class="indicator-check" name="indicator" value="incontinence" <?php if(isset($data['indicator']) && $data['indicator'] == "incontinence") echo "checked";?>> Incontinence</label>
+                            <label class="checkbox-inline"><input type="checkbox" class="indicator-check" name="Incontinence" value="y" <?php if(isset($data['Incontinence'])) echo "checked";?>> Incontinence</label>
                         </div>
                         <div class="col-md-6">
-                            <div class="col-md-1 destroy-padding margin-top-bottom-three padding-top-seven">
-                                <label class="radio-inline control-label"><input type="radio" id="indicator" name="indicator" value="other" <?php if(isset($data['indicator']) && $data['indicator'] == "other") echo "checked";?>> อื่นๆ </label>
+                            <div class="col-md-1 destroy-padding-left margin-top-bottom-three padding-top-seven">
+                                <label class="checkbox-inline control-label"><input type="checkbox" id="indicator" name="Other" value="y" <?php if(isset($data['Other_disaster'])) echo "checked";?>> อื่นๆ </label>
                             </div>
-                            <div class="col-md-11 padding-top-ten"><input class="form-control" type="text" placeholder="โปรดระบุ" id="indicator-text" name="indicator-other" value="<?php if(isset($data['indicator_other']) && isset($data['indicator']) && $data['indicator'] == "other") echo $data['indicator_other'];?>" <?php if(!isset($data['indicator']) || $data['indicator'] != "other") echo "disabled"?> ></div>
+                            <div class="col-md-11 padding-top-ten padding-left-twenty-five"><input class="form-control" type="text" placeholder="โปรดระบุ" id="indicator-text" name="Other_disaster" value="<?php if(isset($data['Other_disaster'])) echo $data['Other_disaster'];?>" <?php if(!isset($data['Other_disaster'])) echo "disabled"?> ></div>
                         </div>
                     </div>
                 </div>
@@ -137,9 +110,7 @@
                 <label class="col-md-12 margin-bottom-zero label-header">ผลการตรวจ</label><br><br>
                 <div class="col-md-12">
                     <div class="row">
-                        <label class="col-md-2 label-body padding-top-seven">EGD</label>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="noECD" name="yesNoEGD" value="noEGD" <?php if(isset($data['yesNoEGD']) && $data['yesNoEGD'] != "y") echo "checked"; ?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="yesECD" name="yesNoEGD" value="yesEGD" <?php if(isset($data['yesNoEGD']) && $data['yesNoEGD'] == "y") echo "checked"; ?>> เคย</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-egd" name="yesNoEGD" value="y" <?php if(isset($data['yesNoEGD'])) echo "checked"?> > EGD</label></div>
                         <div class="col-md-7">
                             <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven yesECDComponent">วันที่</label></div>
                             <div class="col-md-5">
@@ -147,21 +118,20 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
+                        <div class="col-md-2"></div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <label class="col-md-12 label-body">ผลการส่องกล้อง</label>
                         <div class="col-md-12">
-                            <textarea class="form-control yesECDComponent" rows="3" name="resultCameraYesEGD" <?php if(!isset($data['yesNoEGD']) || $data['yesNoEGD'] != "y") echo "disabled"; ?> ><?php if(isset($data['resultYesEGD']) && $data['yesNoEGD'] == "y") echo $data['resultYesEGD']; else echo "";?></textarea>
+                            <textarea class="form-control yesECDComponent" rows="5" name="resultYesEGD" <?php if(!isset($data['yesNoEGD']) || $data['yesNoEGD'] != "y") echo "disabled"; ?> ><?php if(isset($data['resultYesEGD']) && $data['yesNoEGD'] == "y") echo $data['resultYesEGD']; else echo "";?></textarea>
                         </div>
                     </div>
                 </div>
                 <br>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <label class="col-md-2 label-body padding-top-seven">Colonoscopy</label>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="noColonoscopy" name="yesNoColonoscopy" value="noColonoscopy" <?php if(isset($data['yesNoColonoscopy']) && $data['yesNoColonoscopy'] != "y") echo "checked"; ?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="yesColonoscopy" name="yesNoColonoscopy" value="yesColonoscopy" <?php if(isset($data['yesNoColonoscopy']) && $data['yesNoColonoscopy'] == "y") echo "checked"; ?>> เคย</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-colonoscopy" name="yesNoColonoscopy" value="y" <?php if(isset($data['yesNoColonoscopy'])) echo "checked"?>> Colonoscopy</label></div>
                         <div class="col-md-7">
                             <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-5">
@@ -169,21 +139,20 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
+                        <div class="col-md-2"></div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <label class="col-md-12 label-body">ผลการส่องกล้อง</label>
                         <div class="col-md-12">
-                            <textarea class="form-control yesColonoscopyComponent" rows="3" name="resultCameraYesColonoscopy" <?php if(!isset($data['yesNoColonoscopy']) || $data['yesNoColonoscopy'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesColonoscopy']) && $data['yesNoColonoscopy'] == "y") echo $data['resultYesColonoscopy']; else echo "";?></textarea>
+                            <textarea class="form-control yesColonoscopyComponent" rows="5" name="resultYesColonoscopy" <?php if(!isset($data['yesNoColonoscopy']) || $data['yesNoColonoscopy'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesColonoscopy']) && $data['yesNoColonoscopy'] == "y") echo $data['resultYesColonoscopy']; else echo "";?></textarea>
                         </div>
                     </div>
                 </div>
                 <br>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <label class="col-md-2 label-body padding-top-seven">Esophagogram</label>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="noEsophagogram" name="yesNoEsophagogram" value="noEsophagogram" <?php if(isset($data['yesNoEsophagogram']) && $data['yesNoEsophagogram'] != "y") echo "checked"; ?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="yesEsophagogram" name="yesNoEsophagogram" value="yesEsophagogram" <?php if(isset($data['yesNoEsophagogram']) && $data['yesNoEsophagogram'] == "y") echo "checked"; ?>> เคย</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-esophagogram" name="yesNoEsophagogram" value="y" <?php if(isset($data['yesNoEsophagogram'])) echo "checked"?> > Esophagogram</label></div>
                         <div class="col-md-7">
                             <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-5">
@@ -191,306 +160,306 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
+                        <div class="col-md-2"></div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <label class="col-md-12 label-body">ผล</label>
                         <div class="col-md-12">
-                            <textarea class="form-control yesEsophagogramComponent" rows="3" name="resultCameraYesEsophagogram" <?php if(!isset($data['yesNoEsophagogram']) || $data['yesNoEsophagogram'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesEsophagogram']) && $data['yesNoEsophagogram'] == "y") echo $data['resultYesEsophagogram']; else echo "";?></textarea>
+                            <textarea class="form-control yesEsophagogramComponent" rows="5" name="resultYesEsophagogram" <?php if(!isset($data['yesNoEsophagogram']) || $data['yesNoEsophagogram'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesEsophagogram']) && $data['yesNoEsophagogram'] == "y") echo $data['resultYesEsophagogram']; else echo "";?></textarea>
                         </div>
                     </div>
                 </div>
                 <br>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <label class="col-md-2 label-body padding-top-seven">Esophagel transit</label>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="noEsophagel" name="yesNoEsophagel" value="noEsophagel" <?php if(isset($data['yesNoEsophagel']) && $data['yesNoEsophagel'] != "y") echo "checked"; ?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="yesEsophagel" name="yesNoEsophagel" value="yesEsophagel" <?php if(isset($data['yesNoEsophagel']) && $data['yesNoEsophagel'] == "y") echo "checked"; ?>> เคย</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-esophagel" name="yesNoEsophagealtransit" value="y" <?php if(isset($data['yesNoEsophagealtransit'])) echo "checked"?>> Esophageal transit</label></div>
                         <div class="col-md-7">
                             <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-5">
-                                <input type="text" class="form-control yesEsophagelComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesEsophagel" value="<?php if(isset($data['dateYesEsophagel']) && $data['yesNoEsophagel'] == "y") echo date("d/m/Y", strtotime($data['dateYesEsophagel']));?>" <?php if(!isset($data['yesNoEsophagel']) || $data['yesNoEsophagel'] != "y") echo "disabled"; ?>>
+                                <input type="text" class="form-control yesEsophagelComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesEsophagealtransit" value="<?php if(isset($data['dateYesEsophagealtransit']) && $data['yesNoEsophagealtransit'] == "y") echo date("d/m/Y", strtotime($data['dateYesEsophagealtransit']));?>" <?php if(!isset($data['yesNoEsophagealtransit']) || $data['yesNoEsophagealtransit'] != "y") echo "disabled"; ?>>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
+                        <div class="col-md-2"></div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <label class="col-md-12 label-body">ผล</label>
                         <div class="col-md-12">
-                            <textarea class="form-control yesEsophagelComponent" rows="3" name="resultCameraYesEsophagel" <?php if(!isset($data['yesNoEsophagel']) || $data['yesNoEsophagel'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesEsophagel']) && $data['yesNoEsophagel'] == "y") echo $data['resultYesEsophagel']; else echo "";?></textarea>
+                            <textarea class="form-control yesEsophagelComponent" rows="5" name="resultYesEsophagealtransit" <?php if(!isset($data['yesNoEsophagealtransit']) || $data['yesNoEsophagealtransit'] != "y") echo "disabled"; ?>><?php if(isset($data['resultYesEsophagealtransit']) && $data['yesNoEsophagealtransit'] == "y") echo $data['resultYesEsophagealtransit']; else echo "";?></textarea>
                         </div>
                     </div>
                 </div>
                 <br>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input class="check-esophageal-manometry" type="checkbox" <?php if(isset($data['dateEsophageal']) || isset($data['dxEsophageal'])) echo "checked"?>> Esophageal manometry</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-gastric" name="yesNoGastric" value="y" <?php if(isset($data['yesNoGastric'])) echo "checked"?>> Gastric Emptying</label></div>
+                        <div class="col-md-7">
+                            <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven">วันที่</label></div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control yesGastricComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesGastric" value="<?php if(isset($data['dateYesGastric']) && $data['yesNoGastric'] == "y") echo date("d/m/Y", strtotime($data['dateYesGastric']));?>" <?php if(!isset($data['yesNoGastric']) || $data['yesNoGastric'] != "y") echo "disabled"; ?>>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row margin-top-ten">
+                        <label class="col-md-12 label-body">ผล</label>
+                        <div class="col-md-12">
+                            <textarea class="form-control yesGastricComponent" rows="5" name="resultYesGastric" <?php if(!isset($data['yesNoGastric']) || $data['yesNoGastric'] != "y") echo "disabled"; ?> ><?php if(isset($data['resultYesGastric']) && $data['yesNoGastric'] == "y") echo $data['resultYesGastric']; else echo "";?></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 margin-top-forty">
+                    <div class="row">
+                        <div class="col-md-3"><label class="checkbox-inline"><input class="check-esophageal-manometry" type="checkbox" name="yesNoEsophagealmanometry" value="y" <?php if(isset($data['yesNoEsophagealmanometry'])) echo "checked"?>> Esophageal manometry</label></div>
                         <div class="col-md-4">
                             <div class="col-md-2 padding-top-seven destroy-padding-right"><label class="label-body">วันที่ </label></div>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control check-esophageal-manometry-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesEsophagel" name="esophageal_manometry[]" value="<?php if(isset($data['dateEsophageal'])) echo date("d/m/Y", strtotime($data['dateEsophageal']));?>" <?php if(!isset($data['dateEsophageal'])) echo "disabled";?>>
+                            <div class="col-md-10 padding-right-thirty-five">
+                                <input type="text" class="form-control check-esophageal-manometry-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateEsophageal" name="esophageal_manometry[]" value="<?php if(isset($data['dateEsophageal']) && $data['yesNoEsophagealmanometry'] == "y") echo date("d/m/Y", strtotime($data['dateEsophageal']));?>" <?php if(!isset($data['yesNoEsophagealmanometry']) || $data['yesNoEsophagealmanometry'] != "y") echo "disabled";?>>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="col-md-1 padding-top-seven destroy-padding-right"><label class="label-body">DX </label></div>
-                            <div class="col-md-11"><input type="text" class="form-control check-esophageal-manometry-component" name="esophageal_manometry[]" value="<?php if(isset($data['dxEsophageal'])) echo $data['dxEsophageal'];?>" <?php if(!isset($data['dxEsophageal'])) echo "disabled";?>></div>
+                            <div class="col-md-11"><input type="text" class="form-control check-esophageal-manometry-component" name="dxEsophageal" value="<?php if(isset($data['dxEsophageal']) && $data['yesNoEsophagealmanometry'] == "y") echo $data['dxEsophageal'];?>" <?php if(!isset($data['yesNoEsophagealmanometry']) || $data['yesNoEsophagealmanometry'] != "y") echo "disabled";?>></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-4"><label class="checkbox-inline"><input class="check-impedance-off" type="checkbox" <?php if(isset($data['negPos_imp_off'])) echo "checked"?>> Impedance pH monitoring off Rx</label></div>
-                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-off-component" name="impedanceOff" value="negativeImpedanceOff" <?php if(isset($data['negPos_imp_off']) && $data['negPos_imp_off'] == "n") echo "checked"?> <?php if(!isset($data['negPos_imp_off'])) echo "disabled"?>> Negative</label></div>
-                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-off-component" name="impedanceOff" value="positiveImpedanceOff" <?php if(isset($data['negPos_imp_off']) && $data['negPos_imp_off'] == "y") echo "checked"?> <?php if(!isset($data['negPos_imp_off'])) echo "disabled"?>> Positive</label></div>
+                        <div class="col-md-4"><label class="checkbox-inline"><input class="check-impedance-off" type="checkbox" name="yesNoImpedanceOff" value="y" <?php if(isset($data['yesNoImpedanceOff'])) echo "checked"?>> Impedance pH monitoring off Rx</label></div>
+                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-off-component" name="negPos_imp_off" value="n" <?php if(isset($data['negPos_imp_off']) && $data['yesNoImpedanceOff'] == "y" && $data['negPos_imp_off'] == "n") echo "checked"?> <?php if(!isset($data['yesNoImpedanceOff']) || $data['yesNoImpedanceOff'] != "y") echo "disabled"?>> Negative</label></div>
+                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-off-component" name="negPos_imp_off" value="p" <?php if(isset($data['negPos_imp_off']) && $data['yesNoImpedanceOff'] == "y" && $data['negPos_imp_off'] == "p") echo "checked"?> <?php if(!isset($data['yesNoImpedanceOff']) || $data['yesNoImpedanceOff'] != "y") echo "disabled"?>> Positive</label></div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-4"><label class="checkbox-inline"><input class="check-impedance-on" type="checkbox" <?php if(isset($data['negPos_imp_on'])) echo "checked"?>> Impedance pH monitoring on Rx</label></div>
-                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-on-component" name="impedanceOn" value="negativeImpedanceOn" <?php if(isset($data['negPos_imp_on']) && $data['negPos_imp_on'] == "n") echo "checked"?> <?php if(!isset($data['negPos_imp_on'])) echo "disabled"?>> Negative</label></div>
-                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-on-component" name="impedanceOn" value="positiveImpedanceOn" <?php if(isset($data['negPos_imp_on']) && $data['negPos_imp_on'] == "y") echo "checked"?> <?php if(!isset($data['negPos_imp_on'])) echo "disabled"?>> Positive</label></div>
+                        <div class="col-md-4"><label class="checkbox-inline"><input class="check-impedance-on" type="checkbox" name="yesNoImpedanceOn" value="y" <?php if(isset($data['yesNoImpedanceOn'])) echo "checked"?>> Impedance pH monitoring on Rx</label></div>
+                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-on-component" name="negPos_imp_on" value="n" <?php if(isset($data['negPos_imp_on']) && $data['yesNoImpedanceOn'] == "y" && $data['negPos_imp_on'] == "n") echo "checked"?> <?php if(!isset($data['yesNoImpedanceOn']) || $data['yesNoImpedanceOn'] != "y") echo "disabled"?>> Negative</label></div>
+                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="check-impedance-on-component" name="negPos_imp_on" value="p" <?php if(isset($data['negPos_imp_on']) && $data['yesNoImpedanceOn'] == "y" && $data['negPos_imp_on'] == "p") echo "checked"?> <?php if(!isset($data['yesNoImpedanceOn']) || $data['yesNoImpedanceOn'] != "y") echo "disabled"?>> Positive</label></div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
-                    <div class="row">
-                        <label class="col-md-2 label-body padding-top-seven">Gastric Emptying</label>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="noGastric" name="yesNoGastricEmptying" value="noGastricEmptying" <?php if(isset($data['yesNoGastric']) && $data['yesNoGastric'] != "y") echo "checked"; ?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="yesGastric" name="yesNoGastricEmptying" value="yesGastricEmptying" <?php if(isset($data['yesNoGastric']) && $data['yesNoGastric'] == "y") echo "checked"; ?>> เคย</label></div>
-                        <div class="col-md-7">
-                            <div class="col-md-1 destroy-padding-right "><label class="label-body padding-top-seven">วันที่</label></div>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control yesGastricComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesGastricEmptying" value="<?php if(isset($data['dateYesGastric']) && $data['yesNoGastric'] == "y") echo date("d/m/Y", strtotime($data['dateYesGastric']));?>" <?php if(!isset($data['yesNoColonoscopy']) || $data['yesNoColonoscopy'] != "y") echo "disabled"; ?>>
-                            </div>
-                            <div class="col-md-6"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-12 label-body">ผล</label>
-                        <div class="col-md-12">
-                            <textarea class="form-control yesGastricComponent" rows="3" name="resultCameraYesGastricEmptying" <?php if(!isset($data['yesNoColonoscopy']) || $data['yesNoColonoscopy'] != "y") echo "disabled"; ?> ><?php if(isset($data['resultYesGastric']) && $data['yesNoGastric'] == "y") echo $data['resultYesGastric']; else echo "";?></textarea>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry" <?php if(isset($data['dateAnorectal'])) echo "checked"?>> Anorectal manometry</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry" name="yesNoAnorectal" value="y" <?php if(isset($data['yesNoAnorectal'])) echo "checked"?>> Anorectal manometry</label></div>
                         <div class="col-md-4">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-10">
-                                <input type="text" class="form-control check-anorectalmanometry-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="anorectal_manometry[]"  value="<?php if(isset($data['dateAnorectal'])) echo date("d/m/Y", strtotime($data['dateAnorectal']));?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-anorectalmanometry-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateAnorectal"  value="<?php if(isset($data['dateAnorectal']) && $data['yesNoAnorectal'] == "y") echo date("d/m/Y", strtotime($data['dateAnorectal']));?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>>
                             </div>
                         </div>
-                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry-component" name="anorectal_manometry[]" <?php if(isset($data['animus_anorectal'])) echo "checked"?> <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>> anismus</label></div>
-                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry-component" name="anorectal_manometry[]" <?php if(isset($data['normal_anorectal'])) echo "checked"?> <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>> normal</label></div>
+                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry-component" name="animus_anorectal" value="y" <?php if(isset($data['animus_anorectal']) && $data['yesNoAnorectal'] == "y") echo "checked"?> <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>> anismus</label></div>
+                        <div class="col-md-2"><label class="checkbox-inline"><input type="checkbox" class="check-anorectalmanometry-component" name="normal_anorectal" value="y" <?php if(isset($data['normal_anorectal']) && $data['yesNoAnorectal'] == "y") echo "checked"?> <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>> normal</label></div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5 margin-top-ten">
+                    <div class="row margin-top-ten">
+                        <div class="col-md-7 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Other</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="anorectal_manometry[]" value="<?php if(isset($data['other_anorectal'])) echo $data['other_anorectal']?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>></div>
+                            <div class="col-md-10 destroy-padding-left"><input type="text" class="form-control check-anorectalmanometry-component" name="other_anorectal" value="<?php if(isset($data['other_anorectal']) && $data['yesNoAnorectal'] == "y") echo $data['other_anorectal']?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>></div>
                         </div>
-                        <div class="col-md-5 margin-top-ten">
-                            <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">BET</label></div>
-                            <div class="col-md-3 destroy-padding-left"><input type="text" class="form-control check-anorectalmanometry-component" name="anorectal_manometry[]" value="<?php if(isset($data['bet_anorectal'])) echo $data['bet_anorectal']?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>></div>
+                        <div class="col-md-5 margin-top-ten padding-left-twenty-five">
+                            <div class="col-md-2 col-md-offset-2 destroy-padding-right"><label class="label-body padding-top-seven">BET</label></div>
+                            <div class="col-md-3 destroy-padding-left"><input type="text" class="form-control check-anorectalmanometry-component" name="bet_anorectal" value="<?php if(isset($data['bet_anorectal']) && $data['yesNoAnorectal'] == "y") echo $data['bet_anorectal']?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>></div>
                             <div class="col-md-2 destroy-padding-left"><label class="label-body padding-top-seven">min</label></div>
+                            <div class="col-md-3"></div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 margin-top-ten">
-                            <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">S1</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="anorectal_manometry[]" value="<?php if(isset($data['s1_anorectal'])) echo $data['s1_anorectal']?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>></div>
+                    <div class="row margin-top-ten">
+                        <div class="col-md-3 margin-top-ten">
+                            <div class="col-md-2"><label class="label-body padding-top-seven">S1</label></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="s1_anorectal" value="<?php if(isset($data['s1_anorectal']) && $data['yesNoAnorectal'] == "y") echo $data['s1_anorectal']?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>></div>
                         </div>
-                        <div class="col-md-2 margin-top-ten">
-                            <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">S2</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="anorectal_manometry[]" value="<?php if(isset($data['s2_anorectal'])) echo $data['s2_anorectal']?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>></div>
+                        <div class="col-md-3 col-md-offset-1 margin-top-ten">
+                            <div class="col-md-2"><label class="label-body padding-top-seven">S2</label></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="s2_anorectal" value="<?php if(isset($data['s2_anorectal']) && $data['yesNoAnorectal'] == "y") echo $data['s2_anorectal']?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>></div>
                         </div>
-                        <div class="col-md-2 margin-top-ten">
-                            <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">S3</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="anorectal_manometry[]" value="<?php if(isset($data['s3_anorectal'])) echo $data['s3_anorectal']?>" <?php if(!isset($data['dateAnorectal'])) echo "disabled"?>></div>
+                        <div class="col-md-3 col-md-offset-1 margin-top-ten">
+                            <div class="col-md-2"><label class="label-body padding-top-seven">S3</label></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-anorectalmanometry-component" name="s3_anorectal" value="<?php if(isset($data['s3_anorectal']) && $data['yesNoAnorectal'] == "y") echo $data['s3_anorectal']?>" <?php if(!isset($data['yesNoAnorectal']) || $data['yesNoAnorectal'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-colonic-transit" <?php if(isset($data['dateColonic'])) echo "checked"?>> Colonic transit time (CTT)</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-colonic-transit" name="yesNoCTT" value="y" <?php if(isset($data['yesNoCTT'])) echo "checked"?>> Colonic transit time (CTT)</label></div>
                         <div class="col-md-4">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-10">
-                                <input type="text" class="form-control check-colonic-transit-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="date_colonic_transit" value="<?php if(isset($data['dateColonic'])) echo date("d/m/Y", strtotime($data['dateColonic']));?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-colonic-transit-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateCTT" value="<?php if(isset($data['dateCTT']) && $data['yesNoCTT'] == "y") echo date("d/m/Y", strtotime($data['dateCTT']));?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-12 destroy-padding-right"><label class="label-body padding-top-seven">Day 1</label></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Rt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day1[]" value="<?php if(isset($data['rt_day1'])) echo $data['rt_day1']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="rt_day1" value="<?php if(isset($data['rt_day1']) && $data['yesNoCTT'] == "y") echo $data['rt_day1']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Dt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day1[]" value="<?php if(isset($data['dt_day1'])) echo $data['dt_day1']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="dt_day1" value="<?php if(isset($data['dt_day1']) && $data['yesNoCTT'] == "y") echo $data['dt_day1']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-3 margin-top-ten">
                             <div class="col-md-4"><label class="label-body padding-top-seven">Sigmoid</label></div>
-                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day1[]" value="<?php if(isset($data['sigmoid_day1'])) echo $data['sigmoid_day1']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="sigmoid_day1" value="<?php if(isset($data['sigmoid_day1']) && $data['yesNoCTT'] == "y") echo $data['sigmoid_day1']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">R</label></div>
-                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day1[]" value="<?php if(isset($data['r_day1'])) echo $data['r_day1']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="r_day1" value="<?php if(isset($data['r_day1']) && $data['yesNoCTT'] == "y") echo $data['r_day1']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-12 destroy-padding-right"><label class="label-body padding-top-seven">Day 3</label></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Rt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day3[]" value="<?php if(isset($data['rt_day3'])) echo $data['rt_day3']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="rt_day3" value="<?php if(isset($data['rt_day3']) && $data['yesNoCTT'] == "y") echo $data['rt_day3']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Dt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day3[]" value="<?php if(isset($data['dt_day3'])) echo $data['dt_day3']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="dt_day3" value="<?php if(isset($data['dt_day3']) && $data['yesNoCTT'] == "y") echo $data['dt_day3']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-3 margin-top-ten">
                             <div class="col-md-4"><label class="label-body padding-top-seven">Sigmoid</label></div>
-                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day3[]" value="<?php if(isset($data['sigmoid_day3'])) echo $data['sigmoid_day3']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="sigmoid_day3" value="<?php if(isset($data['sigmoid_day3']) && $data['yesNoCTT'] == "y") echo $data['sigmoid_day3']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">R</label></div>
-                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day3[]" value="<?php if(isset($data['r_day3'])) echo $data['r_day3']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="r_day3" value="<?php if(isset($data['r_day3']) && $data['yesNoCTT'] == "y") echo $data['r_day3']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-12 destroy-padding-right"><label class="label-body padding-top-seven">Day 5</label></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Rt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day5[]"  value="<?php if(isset($data['rt_day5'])) echo $data['rt_day5']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="rt_day5"  value="<?php if(isset($data['rt_day5']) && $data['yesNoCTT'] == "y") echo $data['rt_day5']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Dt</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day5[]"  value="<?php if(isset($data['dt_day5'])) echo $data['dt_day5']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-10"><input type="text" class="form-control check-colonic-transit-component" name="dt_day5"  value="<?php if(isset($data['dt_day5']) && $data['yesNoCTT'] == "y") echo $data['dt_day5']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-3 margin-top-ten">
                             <div class="col-md-4"><label class="label-body padding-top-seven">Sigmoid</label></div>
-                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day5[]"  value="<?php if(isset($data['sigmoid_day5'])) echo $data['sigmoid_day5']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8"><input type="text" class="form-control check-colonic-transit-component" name="sigmoid_day5"  value="<?php if(isset($data['sigmoid_day5']) && $data['yesNoCTT'] == "y") echo $data['sigmoid_day5']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                         <div class="col-md-2 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">R</label></div>
-                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="colonic_transit_day5[]"  value="<?php if(isset($data['r_day5'])) echo $data['r_day5']?>" <?php if(!isset($data['dateColonic'])) echo "disabled"?>></div>
+                            <div class="col-md-8 destroy-padding-left"><input type="text" class="form-control check-colonic-transit-component" name="r_day5"  value="<?php if(isset($data['r_day5']) && $data['yesNoCTT'] == "y") echo $data['r_day5']?>" <?php if(!isset($data['yesNoCTT']) || $data['yesNoCTT'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-12 margin-top-ten"><label class="checkbox-inline"><input type="checkbox" class="check-biofeedback" <?php if(isset($data['date1_biofeedback'])) echo "checked"?>> Biofeedback</label></div>
+                        <div class="col-md-12 margin-top-ten"><label class="checkbox-inline"><input type="checkbox" class="check-biofeedback" name="yesNoBiofeedback" value="y" <?php if(isset($data['yesNoBiofeedback'])) echo "checked"?>> Biofeedback</label></div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <div class="col-md-6 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">ทำครั้งที่ 1 วันที่</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="biofeedback[]" value="<?php if(isset($data['date1_biofeedback'])) echo date("d/m/Y", strtotime($data['date1_biofeedback']));?>" <?php if(!isset($data['date1_biofeedback'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="date1_biofeedback" value="<?php if(isset($data['date1_biofeedback']) && $data['yesNoBiofeedback'] == "y") echo date("d/m/Y", strtotime($data['date1_biofeedback']));?>" <?php if(!isset($data['yesNoBiofeedback']) || $data['yesNoBiofeedback'] != "y") echo "disabled"?>>
                             </div>
                         </div>
                         <div class="col-md-6 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">ทำครั้งที่ 2 วันที่</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="biofeedback[]" value="<?php if(isset($data['date2_biofeedback'])) echo date("d/m/Y", strtotime($data['date2_biofeedback']));?>"  <?php if(!isset($data['date1_biofeedback'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="date2_biofeedback" value="<?php if(isset($data['date2_biofeedback']) && $data['yesNoBiofeedback'] == "y") echo date("d/m/Y", strtotime($data['date2_biofeedback']));?>"  <?php if(!isset($data['yesNoBiofeedback']) || $data['yesNoBiofeedback'] != "y") echo "disabled"?>>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-top-ten">
                         <div class="col-md-6 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">ทำครั้งที่ 3 วันที่</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="biofeedback[]" value="<?php if(isset($data['date3_biofeedback'])) echo date("d/m/Y", strtotime($data['date3_biofeedback']));?>" <?php if(!isset($data['date1_biofeedback'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="date3_biofeedback" value="<?php if(isset($data['date3_biofeedback']) && $data['yesNoBiofeedback'] == "y") echo date("d/m/Y", strtotime($data['date3_biofeedback']));?>" <?php if(!isset($data['yesNoBiofeedback']) || $data['yesNoBiofeedback'] != "y") echo "disabled"?>>
                             </div>
                         </div>
                         <div class="col-md-6 margin-top-ten">
                             <div class="col-md-4 destroy-padding-right"><label class="label-body padding-top-seven">ทำครั้งที่ 4 วันที่</label></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="biofeedback[]" value="<?php if(isset($data['date4_biofeedback'])) echo date("d/m/Y", strtotime($data['date4_biofeedback']));?>" <?php if(!isset($data['date1_biofeedback'])) echo "disabled"?>>
+                                <input type="text" class="form-control check-biofeedback-component datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="date4_biofeedback" value="<?php if(isset($data['date4_biofeedback']) && $data['yesNoBiofeedback'] == "y") echo date("d/m/Y", strtotime($data['date4_biofeedback']));?>" <?php if(!isset($data['yesNoBiofeedback']) || $data['yesNoBiofeedback'] != "y") echo "disabled"?>>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-antroduodenal" <?php if(isset($data['yesNoAntroduodenal'])) echo "checked"?> > Antroduodenal manometry</label></div>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="check-antroduodenal-component" id="noAntroduodenal" name="yesNoAntroduodenal" value="noAntroduodenal" <?php if(isset($data['yesNoAntroduodenal']) && $data['yesNoAntroduodenal'] == "n") echo "checked"?> <?php if(!isset($data['yesNoAntroduodenal'])) echo "disabled"?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="check-antroduodenal-component" id="yesAntroduodenal" name="yesnoAntroduodenal" value="yesAntroduodenal" <?php if(isset($data['yesNoAntroduodenal']) && $data['yesNoAntroduodenal'] == "y") echo "checked"?> <?php if(!isset($data['yesNoAntroduodenal'])) echo "disabled"?>> เคย</label></div>
+                        <div class="col-md-12"><label class="checkbox-inline"><input type="checkbox" class="check-antroduodenal" name="yesNoAntroduodenal" value="y" <?php if(isset($data['yesNoAntroduodenal'])) echo "checked"?> > Antroduodenal manometry</label></div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 margin-top-ten">
+                    <div class="row margin-top-twenty">
+                        <div class="col-md-4">
                             <div class="col-md-3 destroy-padding-right"><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-9 destroy-padding-left">
-                                <input type="text" class="form-control yesAntroduodenalComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesAntroduodenal" value="<?php if(isset($data['dateAntroduodenal'])) echo date("d/m/Y", strtotime($data['dateAntroduodenal']));?>" <?php if(!isset($data['yesNoAntroduodenal']) || $data['yesNoAntroduodenal'] != "y") echo "disabled"?>>
+                                <input type="text" class="form-control yesAntroduodenalComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateAntroduodenal" value="<?php if(isset($data['dateAntroduodenal']) && $data['yesNoAntroduodenal'] == "y") echo date("d/m/Y", strtotime($data['dateAntroduodenal']));?>" <?php if(!isset($data['yesNoAntroduodenal']) || $data['yesNoAntroduodenal'] != "y") echo "disabled"?>>
                             </div>
                         </div>
-                        <div class="col-md-8 margin-top-ten">
+                        <div class="col-md-8">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Findings</label></div>
-                            <div class="col-md-10 destroy-padding-left"><input type="text" class="form-control yesAntroduodenalComponent" name="findYesAntroduodenal" value="<?php if(isset($data['findAntroduodenal'])) echo $data['findAntroduodenal']?>" <?php if(!isset($data['yesNoAntroduodenal']) || $data['yesNoAntroduodenal'] != "y") echo "disabled"?>></div>
+                            <div class="col-md-10 destroy-padding-left"><input type="text" class="form-control yesAntroduodenalComponent" name="findAntroduodenal" value="<?php if(isset($data['findAntroduodenal']) && $data['yesNoAntroduodenal'] == "y") echo $data['findAntroduodenal']?>" <?php if(!isset($data['yesNoAntroduodenal']) || $data['yesNoAntroduodenal'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-pudendal" <?php if(isset($data['yesNoPudendal'])) echo "checked"?> > Pudendal nerve latency test</label></div>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="check-pudendal-component" id="noPudendal" name="yesNoPudendal" value="noPudendal" <?php if(isset($data['yesNoPudendal']) && $data['yesNoPudendal'] == "n") echo "checked"?> <?php if(!isset($data['yesNoPudendal'])) echo "disabled"?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="check-pudendal-component" id="yesPudendal" name="yesnoPudendal" value="yesPudendal" <?php if(isset($data['yesNoPudendal']) && $data['yesNoPudendal'] == "y") echo "checked"?> <?php if(!isset($data['yesNoPudendal'])) echo "disabled"?>> เคย</label></div>
+                        <div class="col-md-12"><label class="checkbox-inline"><input type="checkbox" class="check-pudendal" name="yesNoPudendal" value="y" <?php if(isset($data['yesNoPudendal'])) echo "checked"?> > Pudendal nerve latency test</label></div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 margin-top-ten">
+                    <div class="row margin-top-twenty">
+                        <div class="col-md-4">
                             <div class="col-md-3 destroy-padding-right"><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-9 destroy-padding-left">
-                                <input type="text" class="form-control yesPudendalComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesPudendal" value="<?php if(isset($data['datePudendal'])) echo date("d/m/Y", strtotime($data['datePudendal']));?>" <?php if(!isset($data['yesNoPudendal']) || $data['yesNoPudendal'] != "y") echo "disabled"?>>
+                                <input type="text" class="form-control yesPudendalComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="datePudendal" value="<?php if(isset($data['datePudendal']) && $data['yesNoPudendal'] == "y") echo date("d/m/Y", strtotime($data['datePudendal']));?>" <?php if(!isset($data['yesNoPudendal']) || $data['yesNoPudendal'] != "y") echo "disabled"?>>
                             </div>
                         </div>
-                        <div class="col-md-8 margin-top-ten">
+                        <div class="col-md-8">
                             <div class="col-md-2 destroy-padding-right"><label class="label-body padding-top-seven">Findings</label></div>
-                            <div class="col-md-10 destroy-padding-left"><input type="text" class="form-control yesPudendalComponent" name="findYesPudendal" value="<?php if(isset($data['findPudendal'])) echo $data['findPudendal']?>" <?php if(!isset($data['yesNoPudendal']) || $data['yesNoPudendal'] != "y") echo "disabled"?>></div>
+                            <div class="col-md-10 destroy-padding-left"><input type="text" class="form-control yesPudendalComponent" name="findPudendal" value="<?php if(isset($data['findPudendal']) && $data['yesNoPudendal'] == "y") echo $data['findPudendal']?>" <?php if(!isset($data['yesNoPudendal']) || $data['yesNoPudendal'] != "y") echo "disabled"?>></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
-                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-breath-test" <?php if(isset($data['yesNoBreath'])) echo "checked"?> > Breath test</label></div>
-                        <div class="col-md-2"><label class="radio-inline"><input type="radio" class="check-breath-test-component" id="noBreathTest" name="yesNoBreathTest" value="noBreathTest" <?php if(isset($data['yesNoBreath']) && $data['yesNoBreath'] == "n") echo "checked"?> <?php if(!isset($data['yesNoBreath'])) echo "disabled"?>> ไม่เคย</label></div>
-                        <div class="col-md-1"><label class="radio-inline"><input type="radio" class="check-breath-test-component" id="yesBreathTest" name="yesnoBreathTest" value="yesBreathTest" <?php if(isset($data['yesNoBreath']) && $data['yesNoBreath'] == "y") echo "checked"?> <?php if(!isset($data['yesNoBreath'])) echo "disabled"?>> เคย</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="check-breath-test" name="yesNoBreath" value="y" <?php if(isset($data['yesNoBreath'])) echo "checked"?> > Breath test</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="yesBreathTestComponent" name="Glucose" value="y" <?php if(isset($data['Glucose']) && $data['yesNoBreath'] == "y") echo "checked";?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?> > Glucose</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="yesBreathTestComponent" name="Lactulose" value="y" <?php if(isset($data['Lactulose']) && $data['yesNoBreath'] == "y") echo "checked";?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?> > Lactulose</label></div>
+                        <div class="col-md-3"><label class="checkbox-inline"><input type="checkbox" class="yesBreathTestComponent" name="Fructose" value="y" <?php if(isset($data['Fructose']) && $data['yesNoBreath'] == "y") echo "checked";?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?> > Fructose</label></div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 margin-top-ten">
+                    <div class="row margin-top-twenty">
+                        <div class="col-md-4">
                             <div class="col-md-3 destroy-padding-right"><label class="label-body padding-top-seven">วันที่</label></div>
                             <div class="col-md-9 destroy-padding-left">
-                                <input type="text" class="form-control yesBreathTestComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateYesBreathTest" value="<?php if(isset($data['dateBreath'])) echo date("d/m/Y", strtotime($data['dateBreath']));?>" <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>>
+                                <input type="text" class="form-control yesBreathTestComponent datepicker" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="th" name="dateBreath" value="<?php if(isset($data['dateBreath']) && $data['yesNoBreath'] == "y") echo date("d/m/Y", strtotime($data['dateBreath']));?>" <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>>
                             </div>
                         </div>
-                        <div class="col-md-2 margin-top-ten"><label class="radio-inline"><input type="radio" class="yesBreathTestComponent" name="breathTest" value="negativeBreathTest" <?php if(isset($data['negPos_breath']) && $data['negPos_breath'] == "n") echo "checked"?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>> Negative</label></div>
-                        <div class="col-md-2 margin-top-ten"><label class="radio-inline"><input type="radio" class="yesBreathTestComponent" name="breathTest" value="positiveBreathTest" <?php if(isset($data['negPos_breath']) && $data['negPos_breath'] == "y") echo "checked"?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>> Positive</label></div>
+                        <div class="col-md-3 col-md-offset-1"><label class="radio-inline"><input type="radio" class="yesBreathTestComponent" name="negPos_breath" value="n" <?php if(isset($data['negPos_breath'])  && $data['yesNoBreath'] == "y" && $data['negPos_breath'] == "n") echo "checked"?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>> Negative</label></div>
+                        <div class="col-md-3"><label class="radio-inline"><input type="radio" class="yesBreathTestComponent" name="negPos_breath" value="p" <?php if(isset($data['negPos_breath'])  && $data['yesNoBreath'] == "y" && $data['negPos_breath'] == "p") echo "checked"?> <?php if(!isset($data['yesNoBreath']) || $data['yesNoBreath'] != "y") echo "disabled"?>> Positive</label></div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
 
-                <div class="col-md-12 margin-top-twenty">
+                <div class="col-md-12 margin-top-forty">
                     <div class="row">
                         <div class="col-md-12"><label class="label-body">อื่นๆ</label></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12"><textarea class="form-control" rows="5" placeholder="โปรดระบุ" name="otherResultTreatment"><?php if(isset($data['other_result'])) echo $data['other_result']?></textarea></div>
+                        <div class="col-md-12"><textarea class="form-control" rows="5" placeholder="โปรดระบุ" name="other_result"><?php if(isset($data['other_result'])) echo $data['other_result']?></textarea></div>
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="Date" value="">
 
             <div class="row padding-bottom-fifty">
                 <div class="col-md-2 col-md-offset-10">
@@ -501,74 +470,64 @@
         </form>
         <script>
             $("#save-button").click(function(){
-                var dataJson = $("#form-header,#form-body").serializeArray();
+                var dataJson =  $("#form-header,#form-body").serializeArray();
+                console.log(dataJson);
 
                 $.ajax({
                     url: "patientData.php",
                     type: 'post',
                     data: dataJson,
-                    success: function(dat){
-                        console.log(dat);
-                        var json = JSON.parse(dat)
-                        console.log(json['patientFirstName']);
+                    success: function(){
+//                        window.location = "http://localhost/PhpStormWorkspace/projectSADB/nurse/nurseForm.php";
                     }
                 });
             });
         </script>
-
-<!--        <form class="form-horizontal" id="form-body">-->
-<!--            --><?php ////generateNurseForm(); ?>
-<!--        </form>-->
     </div>
     <script>
 
         $(document).ready(function(){
-            if(getUrlVars()["q"] == "search"){
-                $("#form-body").slideDown(1000);
-            }
 
             $(".datepicker").datepicker();
 
-            $("#indicator").focus(function(){
-               $("#indicator-text").removeAttr("disabled");
+            $("#indicator").change(function(){
+                if($("#indicator").prop("checked") == true){
+                    $("#indicator-text").removeAttr("disabled");
+                }else{
+                    $("#indicator-text").val("").attr("disabled",true);
+                }
             });
 
-            $(".indicator-check").focus(function(){
-                $("#indicator-text").attr("disabled",true);
+            $(".check-egd").change(function(){
+                if($(".check-egd").prop("checked") == true){
+                    $(".yesECDComponent").removeAttr("disabled");
+                }else{
+                    $(".yesECDComponent").attr("disabled",true);
+                }
             });
 
-            $(".yesECD").focus(function(){
-                $(".yesECDComponent").removeAttr("disabled");
+            $(".check-colonoscopy").change(function(){
+                if($(".check-colonoscopy").prop("checked") == true){
+                    $(".yesColonoscopyComponent").removeAttr("disabled");
+                }else{
+                    $(".yesColonoscopyComponent").attr("disabled",true);
+                }
             });
 
-            $(".noECD").focus(function(){
-                $(".yesECDComponent").attr("disabled",true);
+            $(".check-esophagogram").change(function(){
+                if($(".check-esophagogram").prop("checked") == true){
+                    $(".yesEsophagogramComponent").removeAttr("disabled");
+                }else{
+                    $(".yesEsophagogramComponent").attr("disabled",true);
+                }
             });
 
-            $(".yesColonoscopy").focus(function(){
-                $(".yesColonoscopyComponent").removeAttr("disabled");
-            });
-
-            $(".noColonoscopy").focus(function(){
-                $(".yesColonoscopyComponent").attr("disabled",true);
-            });
-
-
-            $(".yesEsophagogram").focus(function(){
-                $(".yesEsophagogramComponent").removeAttr("disabled");
-            });
-
-            $(".noEsophagogram").focus(function(){
-                $(".yesEsophagogramComponent").attr("disabled",true);
-            });
-
-
-            $(".yesEsophagel").focus(function(){
-                $(".yesEsophagelComponent").removeAttr("disabled");
-            });
-
-            $(".noEsophagel").focus(function(){
-                $(".yesEsophagelComponent").attr("disabled",true);
+            $(".check-esophagel").change(function(){
+                if($(".check-esophagel").prop("checked") == true){
+                    $(".yesEsophagelComponent").removeAttr("disabled");
+                }else{
+                    $(".yesEsophagelComponent").attr("disabled",true);
+                }
             });
 
             $(".check-esophageal-manometry").change(function(){
@@ -595,12 +554,12 @@
                 }
             });
 
-            $(".yesGastric").focus(function(){
-                $(".yesGastricComponent").removeAttr("disabled");
-            });
-
-            $(".noGastric").focus(function(){
-                $(".yesGastricComponent").attr("disabled",true);
+            $(".check-gastric").change(function(){
+                if($(".check-gastric").prop("checked") == true){
+                    $(".yesGastricComponent").removeAttr("disabled");
+                }else{
+                    $(".yesGastricComponent").attr("disabled",true);
+                }
             });
 
             $(".check-anorectalmanometry").change(function(){
@@ -629,62 +588,26 @@
 
             $(".check-antroduodenal").change(function(){
                 if($(".check-antroduodenal").prop('checked') == true){
-                    $(".check-antroduodenal-component").removeAttr("disabled");
-                    if($("#yesAntroduodenal").prop('checked') == true){
-                        $(".yesAntroduodenalComponent").removeAttr("disabled");
-                    }
+                    $(".yesAntroduodenalComponent").removeAttr("disabled");
                 }else{
-                    $(".check-antroduodenal-component").attr("disabled",true);
                     $(".yesAntroduodenalComponent").attr("disabled",true);
                 }
             });
 
-            $("#yesAntroduodenal").focus(function(){
-                $(".yesAntroduodenalComponent").removeAttr("disabled");
-            });
-
-            $("#noAntroduodenal").focus(function(){
-                $(".yesAntroduodenalComponent").attr("disabled",true);
-            });
-
             $(".check-pudendal").change(function(){
                 if($(".check-pudendal").prop('checked') == true){
-                    $(".check-pudendal-component").removeAttr("disabled");
-                    if($("#yesPudendal").prop('checked') == true){
                         $(".yesPudendalComponent").removeAttr("disabled");
-                    }
                 }else{
-                    $(".check-pudendal-component").attr("disabled",true);
                     $(".yesPudendalComponent").attr("disabled",true);
                 }
             });
 
-            $("#yesPudendal").focus(function(){
-                $(".yesPudendalComponent").removeAttr("disabled");
-            });
-
-            $("#noPudendal").focus(function(){
-                $(".yesPudendalComponent").attr("disabled",true);
-            });
-
             $(".check-breath-test").change(function(){
                 if($(".check-breath-test").prop('checked') == true){
-                    $(".check-breath-test-component").removeAttr("disabled");
-                    if($("#yesBreathTest").prop('checked') == true){
                         $(".yesBreathTestComponent").removeAttr("disabled");
-                    }
                 }else{
-                    $(".check-breath-test-component").attr("disabled",true);
                     $(".yesBreathTestComponent").attr("disabled",true);
                 }
-            });
-
-            $("#yesBreathTest").focus(function(){
-                $(".yesBreathTestComponent").removeAttr("disabled");
-            });
-
-            $("#noBreathTest").focus(function(){
-                $(".yesBreathTestComponent").attr("disabled",true);
             });
 
         });

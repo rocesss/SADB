@@ -4,7 +4,7 @@
 $databaseServer = "ahealth.camdtseexuim.ap-southeast-1.rds.amazonaws.com";
 $databaseUsername = "ahealth";
 $databasePassword = "jarbill";
-$databaseName = "ahealth";
+$databaseName = "test";
 
 
 //------------------------- Type of user ------------------------------------
@@ -21,20 +21,33 @@ function checkUser($username, $password){
 
     mysqli_set_charset($conn,'utf8');
 
-    $query = "SELECT * FROM userpass WHERE username='$username' AND password='$password'";
+    $query = "SELECT * FROM nurse_login WHERE username='$username' AND password='$password'";
     $result = mysqli_query($conn, $query);
 
-    mysqli_close($conn);
+    $dbusername = "";
+    $dbpassword = "";
+
 
     if(mysqli_num_rows($result) == 1){
         $row = mysqli_fetch_assoc($result);
         $dbusername = $row['username'];
         $dbpassword = $row['password'];
-        $GLOBALS['userType'] = $row['type'];
+        $GLOBALS['userType'] = "nurse";
+    }else{
+        $query = "SELECT * FROM admin_login WHERE username='$username' AND password='$password'";
+        $result = mysqli_query($conn, $query);
 
-        if($username == $dbusername && $password == $dbpassword) return true;
+        if(mysqli_num_rows($result) == 1){
+            $row = mysqli_fetch_assoc($result);
+            $dbusername = $row['username'];
+            $dbpassword = $row['password'];
+            $GLOBALS['userType'] = "admin";
+        }
     }
 
+    mysqli_close($conn);
+
+    if($username == $dbusername && $password == $dbpassword) return true;
     return false;
 }
 
@@ -48,14 +61,12 @@ function getPatientData($firstname, $lastname, $hn){
 
     mysqli_set_charset($conn, "utf8");
 
-    $query = "SELECT * FROM dummyNurseForm WHERE patient_firstname = '$firstname' AND patient_lastname = '$lastname' AND hn = '$hn'";
-
-    $result = mysqli_query($conn, $query);
     $data = array();
 
-    mysqli_close($conn);
+    $query = "SELECT thaiFirstName, thaiLastName, englishFirstName, englishLastName FROM user, patient WHERE patient.HN = '$hn' AND patient.username = user.username";
+    $result = mysqli_query($conn, $query);
 
-    if(mysqli_num_rows($result) > 0){
+    if(mysqli_num_rows($result) == 1){
         $num_fields = mysqli_num_fields($result);
         while($row = mysqli_fetch_array($result)){
             for($i = 0; $i < $num_fields; $i++){
@@ -63,6 +74,19 @@ function getPatientData($firstname, $lastname, $hn){
             }
         }
     }
+
+    $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC";
+    $result = mysqli_query($conn, $query);
+
+    if(mysqli_num_rows($result) > 0){
+        $num_fields = mysqli_num_fields($result);
+        $row = mysqli_fetch_array($result);
+        for($i = 0; $i < $num_fields; $i++){
+            $data[mysqli_fetch_field_direct($result, $i)->name] = $row[$i];
+        }
+    }
+
+    mysqli_close($conn);
     return $data;
 }
 
@@ -75,15 +99,30 @@ function savePatientData($data){
 
     mysqli_set_charset($conn, "utf8");
 
-    parse_str($data,$test);
+    parse_str($data, $obj);
 
-    return $test;
+    if(count($obj) > 0){
+        $column = "";
+        $val = "";
 
-//    $query = "UPDATE dummyNurseForm SET(treatment='$treatment')";
+        foreach($obj as $key => $value){
+            if($key == "patientFirstName" || $key == "patientLastName" || $key == "Other") continue;
+            if(fnmatch("date*",$key)) $value = date("Y-m-d",strtotime(str_replace("/","-",$value)));
+            if($key == "Date"){
+                date_default_timezone_set("Asia/Bangkok");
+                $column .= "$key";
+                $val .= "'".date("Y-m-d H:i:s")."'";
+            }else{
+                $column .= "$key,";
+                $val .= "'$value',";
+            }
+        }
 
+        $query = "INSERT INTO InspectionResult($column) VALUES ($val)";
+        mysqli_query($conn,$query);
+    }
 
-
-
+    mysqli_close($conn);
 }
 
 

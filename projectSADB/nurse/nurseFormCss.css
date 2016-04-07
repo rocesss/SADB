@@ -1,15 +1,20 @@
 body{
     background: rgb(246,246,246);
 }
+#form-header{
+    padding: 40px 20px 0 20px;
+}
 
 #form-body{
-    display: none;
+    padding: 0 20px 0 20px;
 }
 
 #head-name{
     background: rgb(0,192,159);
+    padding-top: 15px;
+    padding-bottom: 15px;
     color: white;
-    font-size: 3em;
+    font-size: 2.8em;
 }
 
 .container{
@@ -30,21 +35,14 @@ body{
     font-weight: normal;
 }
 
-.button-search{
+#button-search, #save-button{
     background: rgb(0,192,159);
     color: white;
 }
 
-.button-search:hover{
+#button-search:hover, #save-button:hover{
     background: rgb(0,144,120);
-}
-
-#form-header{
-    padding: 20px 20px 0 20px;
-}
-
-#form-body{
-    padding: 0 20px 0 20px;
+    color: white;
 }
 
 .margin-bottom-zero{
@@ -65,6 +63,10 @@ body{
 
 .margin-top-twenty{
     margin-top: 20px;
+}
+
+.margin-top-forty{
+    margin-top: 40px;
 }
 
 .margin-top-bottom-three{
@@ -91,10 +93,24 @@ body{
     padding-top: 10px;
 }
 
+.padding-left-twenty-five{
+    padding-left: 25px;
+}
+
+.padding-right-thirty-five{
+    padding-right: 35px;
+}
+
 .padding-bottom-fifty{
     padding-bottom: 50px;
 }
 
 textarea{
-    resize: vertical;
+    resize: none;
+}
+
+@media screen and (max-width: 768px){
+    .container{
+        width: 100%;
+    }
 }

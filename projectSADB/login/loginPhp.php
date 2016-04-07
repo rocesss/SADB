@@ -19,11 +19,13 @@
         $_SESSION['username'] = $username;
         $_SESSION['userType'] = $userType;
 
-        if($userType === "nurse"){
+        if($userType == "nurse"){
             header('Location: http://localhost/PhpStormWorkspace/projectSADB/nurse/nurseForm.php');
-        }else{
+        }else if($userType == "admin"){
             //---------------------- ต้องเอาออก ใส่มาเป็น dummy เรื่อง type เฉยๆ -------------------------
 
+            header('Location: http://localhost/PhpStormWorkspace/projectSADB/login/login.php?type=admin');
+        }else{
             header('Location: http://localhost/PhpStormWorkspace/projectSADB/login/login.php');
         }
     }else{
