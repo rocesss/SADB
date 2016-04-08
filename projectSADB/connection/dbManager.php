@@ -69,7 +69,15 @@ function getPatientData($firstname, $lastname, $hn){
 
     $data = array();
 
-    $query = "SELECT thaiFirstName, thaiLastName, englishFirstName, englishLastName FROM user, patient WHERE patient.HN = '$hn' AND patient.username = user.username";
+    if(isset($hn) && $hn !== ""){
+        $query = "SELECT thaiFirstName, thaiLastName, englishFirstName, englishLastName FROM user, patient WHERE patient.HN = '$hn' AND patient.username = user.username";
+    }else if(isset($firstname) && isset($lastname) && $firstname !== "" && $lastname !== ""){
+        $query = "SELECT thaiFirstName, thaiLastName, englishFirstName, englishLastName, HN FROM user, patient WHERE ((user.thaiFirstName = '$firstname'
+                  AND user.thaiLastName = '$lastname') OR (englishFirstName = '$firstname' AND englishLastName = '$lastname')) AND user.username = patient.username";
+    }else{
+        return "unknown";
+    }
+
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result) == 1){
@@ -84,7 +92,13 @@ function getPatientData($firstname, $lastname, $hn){
         return "unknown";
     }
 
-    $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC, Time DESC";
+    if(isset($hn) && $hn !== ""){
+        $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC, Time DESC";
+    }else if(isset($firstname) && isset($lastname) && $firstname !== "" && $lastname !== ""){
+        $query = "SELECT * FROM InspectionResult WHERE HN = (SELECT HN FROM patient WHERE username = (SELECT username FROM user WHERE (user.thaiFirstName = '$firstname' AND user.thaiLastName = '$lastname') OR
+                  (user.englishFirstName = '$firstname' AND user.englishLastName = '$lastname'))) ORDER BY Date DESC, Time DESC";
+    }
+
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result) > 0){
@@ -98,6 +112,8 @@ function getPatientData($firstname, $lastname, $hn){
     mysqli_close($conn);
     return $data;
 }
+
+
 
 function savePatientData($data){
     $conn = mysqli_connect($GLOBALS['databaseServer'], $GLOBALS['databaseUsername'], $GLOBALS['databasePassword'], $GLOBALS['databaseName']);
@@ -115,7 +131,10 @@ function savePatientData($data){
         $result = mysqli_query($conn, $query);
         if(mysqli_num_rows($result) == 0){
             mysqli_close($conn);
-            return "unknown";
+            if(isset($obj['patientFirstName']) && isset($obj['patientLastName']) && $obj['patientFirstName'] !== "" && $obj['patientLastName'] !== "")
+                return "defined";
+            else
+                return "unknown";
         }
 
         $column = "";

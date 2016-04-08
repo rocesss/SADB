@@ -44,9 +44,9 @@
 
         <form class="form-horizontal" id="form-header" method="post" action="patientData.php?q=search">
             <div class="form-group">
-                <label class="col-md-4 margin-bottom-zero label-header">ชื่อผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiFirstName']; else if(isset($data['englishFirstName'])) echo $data['englishFirstName']; else echo ""; ?>" ></label>
-                <label class="col-md-4 margin-bottom-zero label-header">นามสกุลผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiLastName']; else if(isset($data['englishFirstName'])) echo $data['englishLastName']; else echo ""; ?>" ></label>
-                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="HN" required value="<?php if(isset($data['HN'])) echo $data['HN']; else if(isset($data['thaiFirstName']) || isset($data['englishFirstName'])) echo $HN; else echo "";?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">ชื่อผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName"  value="<?php if(isset($data['thaiFirstName']) && $data['thaiFirstName'] !== "") echo $data['thaiFirstName']; else if(isset($data['englishFirstName']) && $data['englishFirstName'] !== "") echo $data['englishFirstName']; else echo ""; ?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">นามสกุลผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName"  value="<?php if(isset($data['thaiFirstName']) && $data['thaiFirstName'] !== "") echo $data['thaiLastName']; else if(isset($data['englishFirstName']) && $data['englishLastName'] !== "") echo $data['englishLastName']; else echo ""; ?>" ></label>
+                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="HN"  value="<?php if(isset($data['HN'])) echo $data['HN']; else if(isset($data['thaiFirstName']) || isset($data['englishFirstName'])) echo $HN; else echo "";?>" ></label>
                 <div class="col-md-1">
                     <br><br><button type="summit" class="form-control button-style margin-top-three" id="button-search"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
@@ -59,7 +59,8 @@
                 <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีรายชื่อภายในระบบ'});</script>
         <?php
                 }
-            }else if(isset($data) && gettype($data) == "array" && count($data) <= 4){
+            }else if((isset($data) && gettype($data) == "array" && !isset($data['HN']) && count($data) <= 4) ||
+                        (isset($data) && gettype($data) == "array" && isset($data['HN']) && count($data) <= 5)){
         ?>
                  <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีผลการตรวจภายในระบบ'});</script>
         <?php
@@ -493,6 +494,8 @@
                             window.location = "http://localhost/PhpStormWorkspace/projectSADB/nurse/nurseForm.php";
                         }else if(a == "unknown"){
                             $.toaster({ priority : 'success', title : '', message : 'ผู้ป่วยไม่มีรายชื่อภายในระบบ'});
+                        }else if(a == "defined"){
+                            $.toaster({priority: 'success', title: '', message: 'โปรดระบุ HN ของผู้ป่วย'});
                         }
                     }
                 });
