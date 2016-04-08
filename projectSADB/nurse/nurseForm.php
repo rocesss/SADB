@@ -8,10 +8,10 @@
     }
 
     if(isset($_GET['q'])){
-        if($_GET['q'] == "search" && $_POST){
-            $firstName = $_POST['patientFirstName'];
-            $lastName = $_POST['patientLastName'];
-            $HN = $_POST['HN'];
+        if($_GET['q'] == "search"){
+            $firstName = urldecode($_GET['fn']);
+            $lastName = urldecode($_GET['ln']);
+            $HN = urldecode($_GET['hn']);
 
             $data = getPatientData($firstName, $lastName, $HN);
         }
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <form class="form-horizontal" id="form-header" method="post" action="nurseForm.php?q=search">
+        <form class="form-horizontal" id="form-header" method="post" action="patientData.php?q=search">
             <div class="form-group">
                 <label class="col-md-4 margin-bottom-zero label-header">ชื่อผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiFirstName']; else if(isset($data['englishFirstName'])) echo $data['englishFirstName']; else echo ""; ?>" ></label>
                 <label class="col-md-4 margin-bottom-zero label-header">นามสกุลผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiLastName']; else if(isset($data['englishFirstName'])) echo $data['englishLastName']; else echo ""; ?>" ></label>
@@ -55,16 +55,16 @@
         <?php
             if(isset($data) && gettype($data) == "string"){
                 if($data == "unknown"){
-                ?>
+        ?>
                 <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีรายชื่อภายในระบบ'});</script>
-            <?php
+        <?php
                 }
             }else if(isset($data) && gettype($data) == "array" && count($data) <= 4){
-            ?>
+        ?>
                  <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีผลการตรวจภายในระบบ'});</script>
-            <?php
+        <?php
             }
-            ?>
+        ?>
         <br>
 
         <form class="form-horizontal" id="form-body" method="post" >
@@ -470,6 +470,7 @@
                 </div>
             </div>
             <input type="hidden" name="Date" value="">
+            <input type="hidden" name="Time" value="">
 
             <div class="row padding-bottom-fifty">
                 <div class="col-md-2 col-md-offset-10">

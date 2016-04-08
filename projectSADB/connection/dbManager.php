@@ -84,7 +84,7 @@ function getPatientData($firstname, $lastname, $hn){
         return "unknown";
     }
 
-    $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC";
+    $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC, Time DESC";
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result) > 0){
@@ -111,7 +111,7 @@ function savePatientData($data){
     parse_str($data, $obj);
 
     if(count($obj) > 0){
-        $query = "SELECT * FROM patient WHERE HN = {$obj['HN']}";
+        $query = "SELECT * FROM patient WHERE HN = '{$obj['HN']}'";
         $result = mysqli_query($conn, $query);
         if(mysqli_num_rows($result) == 0){
             mysqli_close($conn);
@@ -120,14 +120,17 @@ function savePatientData($data){
 
         $column = "";
         $val = "";
+        date_default_timezone_set("Asia/Bangkok");
 
         foreach($obj as $key => $value){
             if($key == "patientFirstName" || $key == "patientLastName" || $key == "Other") continue;
             if(fnmatch("date*",$key)) $value = date("Y-m-d",strtotime(str_replace("/","-",$value)));
             if($key == "Date"){
-                date_default_timezone_set("Asia/Bangkok");
+                $column .= "$key,";
+                $val .= "'".date("Y-m-d")."',";
+            }else if($key == "Time"){
                 $column .= "$key";
-                $val .= "'".date("Y-m-d H:i:s")."'";
+                $val .= "'".date("H:i:s")."'";
             }else{
                 $column .= "$key,";
                 $val .= "'$value',";
