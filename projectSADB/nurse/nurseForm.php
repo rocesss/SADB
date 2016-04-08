@@ -14,10 +14,6 @@
             $HN = $_POST['HN'];
 
             $data = getPatientData($firstName, $lastName, $HN);
-//            print_r($data);
-        }else if($_GET['q'] == "save"){
-            $treatment = $_POST['treatment'];
-//            echo print_r($treatment);
         }
     }
 ?>
@@ -31,6 +27,7 @@
     <script src="../../jquery.min.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../../jquery.toaster.js" type="text/javascript"></script>
     <script src="../login/utility.js" type="text/javascript"></script>
     <link rel="stylesheet" href="nurseFormCss.css" type="text/css">
     <title>ประวัติการตรวจพิเศษทางเดินอาหารของผู้ป่วย</title>
@@ -47,14 +44,27 @@
 
         <form class="form-horizontal" id="form-header" method="post" action="nurseForm.php?q=search">
             <div class="form-group">
-                <label class="col-md-4 margin-bottom-zero label-header">Patient Firstname<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiFirstName']; else if(isset($data['englishFirstName'])) echo $data['englishFirstName']; else echo ""; ?>" ></label>
-                <label class="col-md-4 margin-bottom-zero label-header">Patient Lastname<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiLastName']; else if(isset($data['englishFirstName'])) echo $data['englishLastName']; else echo ""; ?>" ></label>
-                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="HN" required value="<?php if(isset($data['HN'])) echo $data['HN']; else echo ""; ?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">ชื่อผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientFirstName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiFirstName']; else if(isset($data['englishFirstName'])) echo $data['englishFirstName']; else echo ""; ?>" ></label>
+                <label class="col-md-4 margin-bottom-zero label-header">นามสกุลผู้ป่วย<br><br><input class="form-control margin-top-zero" type="text" name="patientLastName" required value="<?php if(isset($data['thaiFirstName'])) echo $data['thaiLastName']; else if(isset($data['englishFirstName'])) echo $data['englishLastName']; else echo ""; ?>" ></label>
+                <label class="col-md-3 margin-bottom-zero label-header">HN<br><br><input class="form-control margin-top-zero" type="text" name="HN" required value="<?php if(isset($data['HN'])) echo $data['HN']; else if(isset($data['thaiFirstName']) || isset($data['englishFirstName'])) echo $HN; else echo "";?>" ></label>
                 <div class="col-md-1">
                     <br><br><button type="summit" class="form-control button-style margin-top-three" id="button-search"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
         </form>
+        <?php
+            if(isset($data) && gettype($data) == "string"){
+                if($data == "unknown"){
+                ?>
+                <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีรายชื่อภายในระบบ'});</script>
+            <?php
+                }
+            }else if(isset($data) && gettype($data) == "array" && count($data) <= 4){
+            ?>
+                 <script>$.toaster({priority: 'success', title: '', message: 'ผู้ป่วยไม่มีผลการตรวจภายในระบบ'});</script>
+            <?php
+            }
+            ?>
         <br>
 
         <form class="form-horizontal" id="form-body" method="post" >
@@ -471,19 +481,25 @@
         <script>
             $("#save-button").click(function(){
                 var dataJson =  $("#form-header,#form-body").serializeArray();
-                console.log(dataJson);
 
                 $.ajax({
                     url: "patientData.php",
                     type: 'post',
                     data: dataJson,
-                    success: function(){
-//                        window.location = "http://localhost/PhpStormWorkspace/projectSADB/nurse/nurseForm.php";
+                    success: function(result){
+                        var a = JSON.parse(result);
+                        if(a == "success"){
+                            window.location = "http://localhost/PhpStormWorkspace/projectSADB/nurse/nurseForm.php";
+                        }else if(a == "unknown"){
+                            $.toaster({ priority : 'success', title : '', message : 'ผู้ป่วยไม่มีรายชื่อภายในระบบ'});
+                        }
                     }
                 });
             });
         </script>
     </div>
+
+
     <script>
 
         $(document).ready(function(){

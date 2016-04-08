@@ -15,11 +15,14 @@ $userType;
 function checkUser($username, $password){
     $conn = mysqli_connect($GLOBALS['databaseServer'],$GLOBALS['databaseUsername'],$GLOBALS['databasePassword'],$GLOBALS['databaseName']);
 
-    if(!$conn){
+    if(mysqli_connect_errno()){
         die("<h1>Page Error : Cannot connect to server</h1>");
     }
 
     mysqli_set_charset($conn,'utf8');
+
+    $username = mysqli_real_escape_string($conn,$username);
+    $password = mysqli_real_escape_string($conn,$password);
 
     $query = "SELECT * FROM nurse_login WHERE username='$username' AND password='$password'";
     $result = mysqli_query($conn, $query);
@@ -52,6 +55,7 @@ function checkUser($username, $password){
 }
 
 
+
 function getPatientData($firstname, $lastname, $hn){
     $conn = mysqli_connect($GLOBALS['databaseServer'], $GLOBALS['databaseUsername'], $GLOBALS['databasePassword'], $GLOBALS['databaseName']);
 
@@ -60,6 +64,8 @@ function getPatientData($firstname, $lastname, $hn){
     }
 
     mysqli_set_charset($conn, "utf8");
+
+    $hn = mysqli_real_escape_string($conn,$hn);
 
     $data = array();
 
@@ -73,6 +79,9 @@ function getPatientData($firstname, $lastname, $hn){
                 $data[mysqli_fetch_field_direct($result, $i)->name] = $row[$i];
             }
         }
+    }else if(mysqli_num_rows($result) == 0){
+        mysqli_close($conn);
+        return "unknown";
     }
 
     $query = "SELECT * FROM InspectionResult WHERE HN = '$hn' ORDER BY Date DESC";
@@ -102,6 +111,13 @@ function savePatientData($data){
     parse_str($data, $obj);
 
     if(count($obj) > 0){
+        $query = "SELECT * FROM patient WHERE HN = {$obj['HN']}";
+        $result = mysqli_query($conn, $query);
+        if(mysqli_num_rows($result) == 0){
+            mysqli_close($conn);
+            return "unknown";
+        }
+
         $column = "";
         $val = "";
 
@@ -123,6 +139,7 @@ function savePatientData($data){
     }
 
     mysqli_close($conn);
+    return "success";
 }
 
 
