@@ -1,6 +1,7 @@
 body{
     background: rgb(246,246,246);
 }
+
 #form-header{
     padding: 40px 20px 0 20px;
 }
@@ -53,6 +54,10 @@ body{
     margin-top: 0;
 }
 
+.margin-top-one{
+    margin-top: 1px;
+}
+
 .margin-top-three{
     margin-top: 3px;
 }
@@ -63,6 +68,14 @@ body{
 
 .margin-top-twenty{
     margin-top: 20px;
+}
+
+.margin-component-form-header{
+    margin-top: 20px;
+}
+
+.margin-top-esophageal-manometry{
+    margin-top: 40px;
 }
 
 .margin-top-forty{
@@ -89,7 +102,7 @@ body{
     padding-top: 7px;
 }
 
-.padding-top-ten{
+.padding-top-other-indicator{
     padding-top: 10px;
 }
 
@@ -101,8 +114,20 @@ body{
     padding-right: 35px;
 }
 
+.padding-left-anorectal{
+    padding-left: 25px;
+}
+
 .padding-bottom-fifty{
     padding-bottom: 50px;
+}
+
+.padding-top-indicator{
+    padding-top: 7px;
+}
+
+.padding-left-r{
+    padding-left: 0;
 }
 
 textarea{
@@ -120,4 +145,47 @@ textarea{
     .container{
         width: 100%;
     }
+
+    .margin-component-form-header{
+        margin-top: -5px;
+    }
+
+    .margin-top-header{
+        margin-top: 20px;
+    }
+
+    .margin-top-esophageal-manometry{
+        margin-top: 20px;
+    }
+
+    .margin-top-anorectal{
+        margin-top: 10px;
+    }
+
+    .margin-right-other-anorectal{
+        margin-right: 15px;
+    }
+
+    .margin-left-right-anorectal{
+        margin-left: -5px;
+        margin-right: 3px;
+    }
+
+    .padding-top-indicator{
+        padding-top: 0;
+    }
+
+    .padding-top-other-indicator{
+        padding-top: 3px;
+    }
+
+    .padding-left-anorectal{
+        padding-left: 0;
+    }
+
+    .padding-left-r{
+        padding-left: 15px;
+    }
+
+
 }
