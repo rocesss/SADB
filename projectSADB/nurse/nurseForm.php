@@ -34,6 +34,9 @@
 </head>
 
 <body>
+    <div id="logout">
+        <a href="http://localhost/PhpStormWorkspace/projectSADB/logout/logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+    </div>
     <div class="container full-height">
 
         <div class="row">

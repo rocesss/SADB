@@ -2,6 +2,24 @@ body{
     background: rgb(246,246,246);
 }
 
+#logout{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+#logout > a{
+    font-size: 1.2em;
+    color: rgb(0,192,159);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#logout > a:hover{
+    color: rgb(0,144,120);
+}
+
 #form-header{
     padding: 40px 20px 0 20px;
 }
